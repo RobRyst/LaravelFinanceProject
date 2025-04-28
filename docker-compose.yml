@@ -1,0 +1,46 @@
+services:
+  php:
+    image: php:8.1-fpm
+    container_name: php-container
+    volumes:
+      - ./src:/var/www/html
+      - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-container
+    volumes:
+      - ./src:/var/www/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - php
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laraveluser
+      MYSQL_PASSWORD: laravelpassword
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+    ports:
+      - "3307:3306"
+
+volumes:
+  mysql-data:
+
+networks:
+  app-network:
+    driver: bridge
