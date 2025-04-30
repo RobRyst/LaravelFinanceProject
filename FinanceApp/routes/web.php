@@ -19,7 +19,26 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+Route::get('/transaction', [InvoiceController::class, 'index'])
+    ->name('transaction');
+
+Route::get('/budget', [InvoiceController::class, 'index'])
+    ->name('budget');
+
+Route::get('/pot', [InvoiceController::class, 'index'])
+    ->name('pot');
+
+Route::get('bill', [InvoiceController::class, 'index'])
+    ->name('bill');
+
 Route::get('/invoice', [InvoiceController::class, 'index'])
+    ->name('invoice');
+
+Route::get('/invoice/create', [InvoiceController::class, 'create'])
+    ->name('invoice');
+
+Route::get('/invoice/update', [InvoiceController::class, 'update'])
     ->name('invoice');
 
 Route::middleware('auth')->group(function () {
