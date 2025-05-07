@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoice', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
-            $table->string('description');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->enum('status', ['draft', 'sent', 'paid', 'overdue'])->default('draft');
-            $table->decimal('total');
+            $table->decimal('sub_total');
+            $table->double('discount')->default(0);
+            $table->double('total')->default(0);
             $table->timestamp('invoice_created')->useCurrent();
+            $table->timestamp('invoice_due_date')->useCurrent();
             $table->timestamps();
         });
     }

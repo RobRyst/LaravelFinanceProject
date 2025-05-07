@@ -1,21 +1,26 @@
 <?php
 
 namespace App\Models;
+use App\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    protected function user(): BelongsTo
+    public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo(User::class);
 
     }
 
     protected $fillable = [
-        'customer',
+        'user_id',
+        'status',
+        'sub_total',
+        'discount',
         'total',
-        'description'
+        'invoice_created',
+        'invoice_due_date',
     ];
     
 }
