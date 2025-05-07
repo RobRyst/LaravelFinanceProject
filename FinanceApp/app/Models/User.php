@@ -18,7 +18,9 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'firstname',
+        'lastname',
+        'address',
         'email',
         'password',
     ];
@@ -49,6 +51,6 @@ class User extends Authenticatable
 
     protected function invoices(): HasMany
     {
-        return $this->hasMany('invoice');
+        return $this->hasMany(Invoice::class, 'customer_id');
     }
 }

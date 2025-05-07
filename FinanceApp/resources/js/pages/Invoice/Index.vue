@@ -1,7 +1,4 @@
 <template>
-    <div>
-        <head> </head>
-    </div>
     <body>
         <main>
             <div class="grid min-h-screen grid-cols-4">
@@ -10,29 +7,32 @@
                         <h1 class="ml-14 text-left text-4xl text-white">Finance</h1>
                         <ul class="ml-14 grid gap-7 text-left text-xl text-gray-400">
                             <li>
-                                <a href="">
-                                    <span>Overview</span>
-                                </a>
+                                <a href=""> Overview </a>
                             </li>
-                            <li>
-                                <a href="">
+                            <li class="hover:bg-gray-600">
+                                <Link :href="route('transaction')">
                                     <span>Transactions</span>
-                                </a>
+                                </Link>
                             </li>
-                            <li>
-                                <a href="">
+                            <li class="hover:bg-gray-600">
+                                <Link :href="route('budget')">
                                     <span>Budgets</span>
-                                </a>
+                                </Link>
                             </li>
-                            <li>
-                                <a href="">
+                            <li class="hover:bg-gray-600">
+                                <Link :href="route('pot')">
                                     <span>Pots</span>
-                                </a>
+                                </Link>
                             </li>
-                            <li>
-                                <a href="">
+                            <li class="hover:bg-gray-600">
+                                <Link :href="route('bill')">
                                     <span>Recurring Bills</span>
-                                </a>
+                                </Link>
+                            </li>
+                            <li class="hover:bg-gray-600">
+                                <Link :href="route('invoice')">
+                                    <span>Invoices</span>
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -111,3 +111,6 @@
         </main>
     </body>
 </template>
+<script setup>
+import { Link } from '@inertiajs/vue3';
+</script>
