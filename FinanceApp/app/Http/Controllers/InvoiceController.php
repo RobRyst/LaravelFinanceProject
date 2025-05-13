@@ -16,6 +16,17 @@ class InvoiceController extends Controller
         return response()->json($invoices);
     }
 
+    public function getLastInvoices() {
+        $latestInvoices = Invoice::with('user')
+        ->latest('invoice_created')
+        ->take(5)
+        ->get();
+
+        return Inertia::render('Dashboard', [
+        'latestInvoices' => $latestInvoices,
+        ]);
+    }
+
     public function create() {
         return Inertia::render('Invoice/Create');
     }
@@ -39,8 +50,18 @@ class InvoiceController extends Controller
         return Inertia::render('Invoice/Read');
     }
 
-    public function update() {
-        return Inertia::render('Invoice/Update');
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+
+            'total' => 'numeric',
+            'invoice_due_date' => 'date',
+        ]);
+
+        $invoice = Invoice::findOrFail($id);
+        $invoice->update($validated);
+
+        return response()->json(['message' => 'Invoice updated successfully']);
     }
 
     public function destroy($id)

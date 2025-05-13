@@ -10,3 +10,5 @@ Route::delete('/invoices/{id}', [InvoiceController::class, 'destroy']);
 Route::get('/users', function () {
     return \App\Models\User::select('id', 'firstname', 'lastname')->get();
 });
+
+Route::put('/invoices/{id}', [InvoiceController::class, 'update']);
