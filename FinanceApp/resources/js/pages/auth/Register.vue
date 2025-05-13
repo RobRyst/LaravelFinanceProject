@@ -6,6 +6,8 @@ import TextInput from '@/Components/TextInput.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
+//router.visit(route('login'));
+
 const form = useForm({
     firstname: '',
     lastname: '',

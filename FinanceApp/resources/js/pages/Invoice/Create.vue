@@ -59,6 +59,7 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { defineEmits, onMounted, ref } from 'vue';
 
 const emit = defineEmits(['close']);
@@ -140,7 +141,13 @@ function submit() {
             console.log(errors);
         },
         onSuccess: () => {
-            alert('Invoice created!');
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Invoice has been created successfully',
+                showConfirmButton: false,
+                timer: 1500,
+            });
             emit('close');
         },
     });

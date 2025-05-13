@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "ag-charts-vue3": "^11.2.4"
+  }
+}

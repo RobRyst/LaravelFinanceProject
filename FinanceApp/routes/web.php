@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PDFController;
 
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -22,13 +23,12 @@ Route::middleware('auth')->group(function () {
         ]);
     });
     */
-    Route::get('/', function () {
-        return Inertia::render('Dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [InvoiceController::class, 'getLastInvoices'])
+    ->middleware(['auth', 'verified'])->name('dashboard');
+
     
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [InvoiceController::class, 'getLastInvoices'])
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
     Route::get('/invoicePage', function () {
         return Inertia::render('Invoice/Invoices');
@@ -49,9 +49,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/budgetPage', function () {
         return Inertia::render('Budget/Budgets');
     })->middleware(['auth', 'verified'])->name('budgetPage');
+
+    Route::middleware('auth:sanctum')->group(function () {
+    Route::put('/invoices/{id}', [InvoiceController::class, 'update']);
+});
+    
     
     Route::get('/invoices/{id}/download', [PDFController::class, 'download']);
-
 
     Route::get('/invoice/create', [InvoiceController::class, 'create'])
     ->name('invoice.create');
@@ -62,9 +66,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/invoices', [InvoiceController::class, 'index']);
     
     Route::delete('/invoices/{id}', [InvoiceController::class, 'destroy']);
-    
-    Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
+
 });
+
+Route::match(['get', 'post'], '/register', function () {
+    return redirect()->route(Auth::check() ? 'dashboard' : 'login');
+});
+
+
+    //Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+    //Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 
 require __DIR__.'/auth.php';
