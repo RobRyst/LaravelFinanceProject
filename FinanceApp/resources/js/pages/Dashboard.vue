@@ -13,11 +13,10 @@ const props = defineProps({
 <template>
     <Head title="Homepage" />
 
-    <AuthenticatedLayout>
-        <!---<template #header>
+    <AuthenticatedLayout
+        ><template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">Dashboard</h2>
         </template>
-    -->
 
         <main>
             <div class="py-7">

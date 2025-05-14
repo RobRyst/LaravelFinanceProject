@@ -46,10 +46,6 @@ class InvoiceController extends Controller
         $invoice = Invoice::create($validated);
     }
 
-    public function read() {
-        return Inertia::render('Invoice/Read');
-    }
-
     public function update(Request $request, $id)
     {
         $validated = $request->validate([

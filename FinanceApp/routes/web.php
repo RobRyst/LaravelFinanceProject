@@ -23,11 +23,14 @@ Route::middleware('auth')->group(function () {
         ]);
     });
     */
-Route::get('/dashboard', [InvoiceController::class, 'getLastInvoices'])
-    ->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/dashboard', [InvoiceController::class, 'getLastInvoices'])
+        ->middleware(['auth', 'verified'])->name('dashboard');
 
+    //BRUK DENNE TIL Å REDIRECTE
+    //Route::get('register', [InvoiceController::class, 'getLastInvoices'])
+      //  ->middleware(['auth', 'verified'])->name('dashboard');
     
-Route::get('/', [InvoiceController::class, 'getLastInvoices'])
+    Route::get('/', [InvoiceController::class, 'getLastInvoices'])
     ->middleware(['auth', 'verified'])->name('dashboard');
 
     Route::get('/invoicePage', function () {
@@ -68,12 +71,6 @@ Route::get('/', [InvoiceController::class, 'getLastInvoices'])
     Route::delete('/invoices/{id}', [InvoiceController::class, 'destroy']);
 
 });
-
-Route::match(['get', 'post'], '/register', function () {
-    return redirect()->route(Auth::check() ? 'dashboard' : 'login');
-});
-
-
     //Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
     //Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 
