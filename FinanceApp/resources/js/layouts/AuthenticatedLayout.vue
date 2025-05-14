@@ -7,6 +7,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
+const isCollapsed = ref(false);
 const showingNavigationDropdown = ref(false);
 </script>
 
@@ -15,8 +16,12 @@ const showingNavigationDropdown = ref(false);
 
     <div>
         <div class="flex min-h-screen flex-col bg-gray-100 sm:flex-row">
-            <!-- Sidebar Navigation (hidden on small screens) -->
-            <nav class="fixed top-0 z-30 hidden h-screen w-80 flex-shrink-0 border-r border-gray-100 bg-zinc-800 sm:block">
+            <nav
+                :class="[
+                    'fixed top-0 z-30 hidden h-screen flex-shrink-0 border-r border-gray-100 bg-zinc-800 transition-all duration-300 sm:block',
+                    isCollapsed ? 'w-20' : 'w-80',
+                ]"
+            >
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 flex-col">
                         <div class="space-y-6 px-4 py-6">
@@ -26,24 +31,78 @@ const showingNavigationDropdown = ref(false);
                                 </Link>
                             </div>
 
-                            <div class="flex hidden flex-col gap-4 sm:-my-px sm:ms-5 sm:flex">
-                                <NavLink :href="route('dashboard')" class="text-xl text-white" :active="route().current('dashboard')">
-                                    Dashboard
+                            <div
+                                :class="[
+                                    'flex flex-col gap-4 transition-all duration-300 sm:-my-px sm:ms-5 sm:flex',
+                                    isCollapsed ? 'items-center text-sm' : 'items-start',
+                                ]"
+                            >
+                                <NavLink
+                                    :href="route('dashboard')"
+                                    class="text-white"
+                                    :class="isCollapsed ? 'text-xs' : 'text-xl'"
+                                    :active="route().current('dashboard')"
+                                >
+                                    <span v-if="!isCollapsed" class="text-xl">Dashboard</span>
                                 </NavLink>
-                                <NavLink :href="route('invoicePage')" class="text-xl text-white" :active="route().current('invoicePage')">
-                                    Invoices
+
+                                <NavLink
+                                    :href="route('invoicePage')"
+                                    class="text-white"
+                                    :class="isCollapsed ? 'text-xs' : 'text-xl'"
+                                    :active="route().current('invoicePage')"
+                                >
+                                    <span v-if="!isCollapsed" class="text-xl">Invoices</span>
                                 </NavLink>
-                                <NavLink :href="route('billPage')" class="text-xl text-white" :active="route().current('billPage')"> Bills </NavLink>
-                                <NavLink :href="route('budgetPage')" class="text-xl text-white" :active="route().current('budgetPage')">
-                                    Budgets
+
+                                <NavLink
+                                    :href="route('billPage')"
+                                    class="text-white"
+                                    :class="isCollapsed ? 'text-xs' : 'text-xl'"
+                                    :active="route().current('billPage')"
+                                >
+                                    <span v-if="!isCollapsed" class="text-xl">Bills</span>
                                 </NavLink>
-                                <NavLink :href="route('potsPage')" class="text-xl text-white" :active="route().current('potsPage')"> Pots </NavLink>
+
+                                <NavLink
+                                    :href="route('budgetPage')"
+                                    class="text-white"
+                                    :class="isCollapsed ? 'text-xs' : 'text-xl'"
+                                    :active="route().current('budgetPage')"
+                                >
+                                    <span v-if="!isCollapsed" class="text-xl">Budgets</span>
+                                </NavLink>
+
+                                <NavLink
+                                    :href="route('potsPage')"
+                                    class="text-white"
+                                    :class="isCollapsed ? 'text-xs' : 'text-xl'"
+                                    :active="route().current('potsPage')"
+                                >
+                                    <span v-if="!isCollapsed" class="text-xl">Pots</span>
+                                </NavLink>
                             </div>
                         </div>
 
-                        <div class="hidden sm:ms-6 sm:flex sm:items-center">
-                            <div class="relative ms-3">
-                                <Dropdown align="left" width="48">
+                        <button class="absolute right-2 top-2 text-white hover:text-gray-400 lg:block" @click="isCollapsed = !isCollapsed">
+                            <svg
+                                v-if="!isCollapsed"
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+
+                        <div class="flex sm:ml-0 sm:mt-auto sm:flex-col sm:items-start sm:pb-4">
+                            <div class="relative">
+                                <Dropdown align="left" :width="isCollapsed ? '48' : '48'">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
                                             <button
@@ -125,7 +184,7 @@ const showingNavigationDropdown = ref(false);
             </div>
 
             <!-- Page Content -->
-            <div class="w-full flex-1 sm:ml-0 md:ml-80">
+            <div :class="['w-full flex-1 transition-all duration-300', isCollapsed ? 'md:ml-20' : 'md:ml-80']">
                 <header class="bg-white shadow" v-if="$slots.header">
                     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         <slot name="header" />

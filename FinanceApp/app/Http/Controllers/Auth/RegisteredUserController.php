@@ -20,7 +20,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        //return Inertia::render('Auth/Register');
+        return Inertia::render('404', ['status' => 'Not Found!']);
     }
 
     /**
